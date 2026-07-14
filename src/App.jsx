@@ -11,60 +11,6 @@ const reactionOptions = [
   { key: 'angry', label: 'Angry', emoji: '😠' },
 ]
 
-const initialConfessions = [
-  {
-    id: 1,
-    title: 'Some days are heavier than they look',
-    penName: 'Midnight Rambler',
-    content:
-      'I keep acting like everything is manageable, but the truth is I have been carrying too many expectations for too long. I wanted a place where I could say that out loud without feeling like I had to explain every detail.',
-    reactions: {
-      like: 4,
-      heart: 7,
-      cry: 2,
-      laugh: 0,
-      dislike: 0,
-      angry: 1,
-    },
-    userReactions: {},
-    createdAt: Date.now() - 1000 * 60 * 60 * 24 * 3,
-  },
-  {
-    id: 2,
-    title: 'A small win that mattered',
-    penName: '',
-    content:
-      'I finally told someone that I was not okay, and they actually listened instead of fixing me. That probably sounds tiny, but it felt enormous to me.',
-    reactions: {
-      like: 9,
-      heart: 5,
-      cry: 1,
-      laugh: 0,
-      dislike: 0,
-      angry: 0,
-    },
-    userReactions: {},
-    createdAt: Date.now() - 1000 * 60 * 60 * 24 * 2,
-  },
-  {
-    id: 3,
-    title: 'I miss who I was before burnout',
-    penName: 'Anon',
-    content:
-      'There was a version of me that used to create things for fun. Now I keep postponing rest because I feel guilty the second I stop working. I hope I can get that part of myself back.',
-    reactions: {
-      like: 3,
-      heart: 6,
-      cry: 3,
-      laugh: 0,
-      dislike: 0,
-      angry: 2,
-    },
-    userReactions: {},
-    createdAt: Date.now() - 1000 * 60 * 60 * 24,
-  },
-]
-
 const blankForm = {
   title: '',
   penName: '',
@@ -167,7 +113,7 @@ function applyLocalReactionToggle(confession, userId, reactionKey) {
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
-  const [confessions, setConfessions] = useState(initialConfessions)
+  const [confessions, setConfessions] = useState([])
   const [selectedConfession, setSelectedConfession] = useState(null)
   const [showSentModal, setShowSentModal] = useState(false)
   const [formData, setFormData] = useState(blankForm)
@@ -206,14 +152,14 @@ function App() {
           return
         }
 
-        setApiNotice('Unexpected API response format. Showing starter data.')
+        setApiNotice('Unexpected API response format.')
       } catch {
         if (!isMounted) {
           return
         }
 
-        setConfessions(initialConfessions)
-        setApiNotice('AWS backend not reachable yet. Showing starter data.')
+        setConfessions([])
+        setApiNotice('AWS backend not reachable yet.')
       }
     }
 
