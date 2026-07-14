@@ -121,6 +121,7 @@ function App() {
   const [activeSearchQuery, setActiveSearchQuery] = useState('')
   const [visibleCount, setVisibleCount] = useState(50)
   const [apiNotice, setApiNotice] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [viewerId] = useState(() => getOrCreateViewerId())
 
   const filteredConfessions = confessions.filter((confession) =>
@@ -230,6 +231,10 @@ function App() {
   const handleSubmit = async (event) => {
     event.preventDefault()
 
+    if (isSubmitting) {
+      return
+    }
+
     const title = formData.title.trim()
     const content = formData.content.trim()
     const penName = formData.penName.trim()
@@ -237,6 +242,8 @@ function App() {
     if (!title || !content) {
       return
     }
+
+    setIsSubmitting(true)
 
     try {
       const created = await createConfession({ title, content, penName })
@@ -262,6 +269,8 @@ function App() {
 
       setConfessions((currentConfessions) => [newConfession, ...currentConfessions])
       setApiNotice('Backend create failed. Saved locally for now.')
+    } finally {
+      setIsSubmitting(false)
     }
 
     setFormData(blankForm)
@@ -387,6 +396,7 @@ function App() {
                     name="title"
                     value={formData.title}
                     onChange={handleChange}
+                    disabled={isSubmitting}
                     placeholder="Give your confession a title"
                     required
                   />
@@ -399,6 +409,7 @@ function App() {
                     name="penName"
                     value={formData.penName}
                     onChange={handleChange}
+                    disabled={isSubmitting}
                     placeholder="Stay anonymous or add a pen name"
                   />
                 </label>
@@ -410,14 +421,15 @@ function App() {
                   name="content"
                   value={formData.content}
                   onChange={handleChange}
+                  disabled={isSubmitting}
                   placeholder="Write whatever you want to say here..."
                   required
                 />
               </label>
 
               <div className="form-actions">
-                <button type="submit" className="primary-button">
-                  Send anonymous message
+                <button type="submit" className="primary-button" disabled={isSubmitting}>
+                  {isSubmitting ? 'Sending...' : 'Send anonymous message'}
                 </button>
               </div>
             </form>
