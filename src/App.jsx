@@ -342,7 +342,7 @@ function App() {
                 <h2>A quiet place to let it out.</h2>
                 <p>
                   Hi! I&apos;m Edward, a person who loves listening to rants and whatever&apos;s in
-                  people&apos;s mind. I created this site to give people a place where they can just
+                  people&apos;s minds. I created this site to give people a place where they can just
                   say whatever they want. Everything here remains anonymous, should you ever
                   feel like you want to be known, feel free to do so.
                 </p>
